@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Layout from "../core/Layout";
 import axios from "axios";
+import { isAuth } from "./helpers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
@@ -85,6 +86,7 @@ const Signup = () => {
     <Layout>
       <div className='col-md-6 mx-auto'>
         <ToastContainer />
+        {isAuth() ? <Redirect to='/' /> : null}
         <h1 className='text-center my-5'>Signup</h1>
         {signupForm()}
       </div>

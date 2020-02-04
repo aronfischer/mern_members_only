@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Layout from "../core/Layout";
 import axios from "axios";
+import { authenticate, isAuth } from "./helpers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
-const Signin = () => {
+const Signin = ({ history }) => {
   const [values, setValues] = useState({
     email: "aronfischersigl@googlemail.com",
     password: "123456",
@@ -29,13 +30,19 @@ const Signin = () => {
     })
       .then(response => {
         console.log("SIGNIN SUCCESS", response);
-        setValues({
-          ...values,
-          email: "",
-          password: "",
-          buttonText: "Submitted"
+
+        authenticate(response, () => {
+          setValues({
+            ...values,
+            email: "",
+            password: "",
+            buttonText: "Submitted"
+          });
+          // toast.success(`Hey, ${response.data.user.name}, Welcome back!`);
+          isAuth() && isAuth().role === "admin"
+            ? history.push("/admin")
+            : history.push("/private");
         });
-        toast.success(`Hey, ${response.data.user.name}, Welcome back!`);
       })
       .catch(error => {
         console.log("SIGNIN ERROR", error.response.data);
@@ -74,6 +81,7 @@ const Signin = () => {
     <Layout>
       <div className='col-md-6 mx-auto'>
         <ToastContainer />
+        {isAuth() ? <Redirect to='/' /> : null}
         <h1 className='text-center my-5'>Signin</h1>
         {signinForm()}
       </div>
