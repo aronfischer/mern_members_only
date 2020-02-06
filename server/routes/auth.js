@@ -6,14 +6,18 @@ const {
   signupWithoutEmailVerification,
   accountActivation,
   signup,
-  signin
+  signin,
+  forgotPassword,
+  resetPassword
 } = require("../controllers/auth");
 
 // import validators
 const { runValidation } = require("../validators/index");
 const {
   userSignupValidator,
-  userSigninValidator
+  userSigninValidator,
+  forgotPasswordValidator,
+  resetPasswordValidator
 } = require("../validators/auth");
 
 router.post(
@@ -25,5 +29,13 @@ router.post(
 router.post("/signup", userSignupValidator, runValidation, signup); // Signup with getting an email sent
 router.post("/account-activation", accountActivation);
 router.post("/signin", userSigninValidator, runValidation, signin); // Signup without getting an email sent
+// forgot reset password route
+router.put(
+  "/forgot-password",
+  forgotPasswordValidator,
+  runValidation,
+  forgotPassword
+);
+router.post("/reset-password", reset, runValidation, resetPassword);
 
 module.exports = router;
