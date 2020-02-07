@@ -38,9 +38,8 @@ const Reset = ({ match }) => {
     })
       .then(response => {
         console.log("RESET PASSWORD SUCCESS", response);
-        toast
-          .success(response.data.message)
-          .setValues({ ...values, buttonText: "Done" });
+        toast.success(response.data.message);
+        setValues({ ...values, buttonText: "Done" });
       })
       .catch(error => {
         console.log("RESET PASSWORD ERROR", error.response.data);

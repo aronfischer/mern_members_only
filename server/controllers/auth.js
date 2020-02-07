@@ -199,7 +199,7 @@ exports.forgotPassword = (req, res) => {
             `
     };
 
-    return user.updateOne({ resetPassworLink: token }, (err, success) => {
+    return user.updateOne({ resetPasswordLink: token }, (err, success) => {
       if (err) {
         console.log("RESET PASSWORD LINK ERROR", err);
         return res
@@ -239,7 +239,7 @@ exports.resetPassword = (req, res) => {
         });
       }
 
-      User.findOne({ resetPassworLink }, (err, user) => {
+      User.findOne({ resetPasswordLink }, (err, user) => {
         if (err || !user) {
           return res.status(400).json({
             error: "Something went wrong. Try later!"

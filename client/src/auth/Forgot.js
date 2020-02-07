@@ -13,13 +13,13 @@ const Forgot = ({ history }) => {
   const { email, buttonText } = values;
 
   const handleChange = name => event => {
+    // console.log(event.target.value);
     setValues({ ...values, [name]: event.target.value });
   };
 
   const clickSubmit = event => {
     event.preventDefault();
     setValues({ ...values, buttonText: "Submitting" });
-
     axios({
       method: "PUT",
       url: `${process.env.REACT_APP_API}/forgot-password`,
@@ -27,9 +27,8 @@ const Forgot = ({ history }) => {
     })
       .then(response => {
         console.log("FORGOT PASSWORD SUCCESS", response);
-        toast
-          .success(response.data.message)
-          .setValues({ ...values, buttonText: "Requested" });
+        toast.success(response.data.message);
+        setValues({ ...values, buttonText: "Requested" });
       })
       .catch(error => {
         console.log("FORGOT PASSWORD ERROR", error.response.data);
@@ -39,9 +38,9 @@ const Forgot = ({ history }) => {
   };
 
   const forgotPasswordForm = () => (
-    <form className='form'>
+    <form>
       <div className='form-group'>
-        <label>Email</label>
+        <label className='text-muted'>Email</label>
         <input
           onChange={handleChange("email")}
           value={email}
@@ -49,9 +48,12 @@ const Forgot = ({ history }) => {
           className='form-control'
         />
       </div>
-      <button className='btn btn-primary' onClick={clickSubmit}>
-        {buttonText}
-      </button>
+
+      <div>
+        <button className='btn btn-primary' onClick={clickSubmit}>
+          {buttonText}
+        </button>
+      </div>
     </form>
   );
 
