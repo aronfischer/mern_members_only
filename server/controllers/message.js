@@ -5,8 +5,7 @@ exports.create = (req, res) => {
   const { author, message, date } = req.body;
   const newMessage = new Message({
     author,
-    message,
-    date
+    message
   });
 
   newMessage.save((err, success) => {
@@ -15,6 +14,10 @@ exports.create = (req, res) => {
 
       return res.status(400).json({
         error: "Faild to send message, please try again later!"
+      });
+    } else {
+      return res.json({
+        message: "Message submitted successfully"
       });
     }
   });
