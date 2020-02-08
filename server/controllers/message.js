@@ -22,3 +22,13 @@ exports.create = (req, res) => {
     }
   });
 };
+
+exports.read = (req, res) => {
+  Message.find()
+    .then(response => {
+      return res.json(response);
+    })
+    .catch(error => {
+      console.log("GETTING MESSAGES FROM DATABASE ERROR", error);
+    });
+};

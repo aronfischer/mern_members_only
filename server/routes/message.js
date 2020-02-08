@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 
 // import controllers
-const { create } = require("../controllers/message");
+const { create, read } = require("../controllers/message");
 
 // routes
-router.post("/create-message", create);
+router.post("/message", create);
+router.get("/message", read);
 
 module.exports = router;
