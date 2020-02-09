@@ -1,8 +1,14 @@
 .af-card {
   border-radius: 15px;
-  -webkit-box-shadow: 8px 8px 30px lightgray inset;
-          box-shadow: 8px 8px 30px lightgray inset;
+  -webkit-box-shadow: 2px 2px 10px lightgray inset;
+          box-shadow: 2px 2px 10px lightgray inset;
   padding: 10px;
+  background: lightgreen;
+}
+
+.af-card-container {
+  height: 60vh;
+  overflow: scroll;
 }
 
 .af-sec-msg {
@@ -15,5 +21,10 @@
   color: black;
   -webkit-filter: blur(5px);
           filter: blur(5px);
+}
+
+.af-scrollTo {
+  color: red;
+  height: 20px;
 }
 /*# sourceMappingURL=message.css.map */

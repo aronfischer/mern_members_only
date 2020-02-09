@@ -10,6 +10,7 @@ import PrivateRoute from "./auth/PrivateRoute";
 import AdminRoute from "./auth/AdminRoute";
 import Forgot from "./auth/Forgot";
 import Reset from "./auth/Reset";
+import SignupWithoutEmail from "./auth/SignupWithoutEmail";
 
 const Routes = () => {
   return (
@@ -17,6 +18,11 @@ const Routes = () => {
       <Switch>
         <Route exact path='/' component={App} />
         <Route exact path='/signup' component={Signup} />
+        <Route
+          exact
+          path='/signupWithoutEmail'
+          component={SignupWithoutEmail}
+        />
         <Route exact path='/signin' component={Signin} />
         <Route exact path='/auth/activate/:token' component={Activate} />
         <PrivateRoute exact path='/private' component={Private} />

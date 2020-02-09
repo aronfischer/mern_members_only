@@ -14,12 +14,9 @@ const App = () => {
     buttonText: "Send"
   });
 
-  const { author, messages, message, buttonText } = values;
+  const { messages, message, buttonText } = values;
 
   useEffect(() => {
-    // if (isAuth()) {
-    //   setValues({ ...values, buttonText: "soth" });
-    // }
     loadMessages();
   }, []);
 
@@ -45,9 +42,7 @@ const App = () => {
 
   const clickSubmit = event => {
     event.preventDefault();
-    setValues({ ...values, buttonText: "Sending" });
-
-    console.log("VALUES", values);
+    // setValues({ ...values, buttonText: "Sending" });
 
     axios({
       method: "POST",
@@ -58,17 +53,15 @@ const App = () => {
         console.log("MESSAGE SENT SUCCESS", response);
         setValues({
           ...values,
-          message: "",
-          buttonText: "Send"
+          message: ""
         });
         // toast.success(response.data.message);
       })
+      .then(() => {
+        loadMessages();
+      })
       .catch(error => {
         console.log("MESSAGE SENT ERROR", error.response.data);
-        setValues({
-          ...values,
-          buttonText: "Send"
-        });
         toast.error(error.response.data.error);
       });
   };
@@ -90,13 +83,14 @@ const App = () => {
   );
 
   const displayMessages = () => (
-    <Fragment>
+    <div className='af-card-container mb-3'>
       {messages !== ""
         ? messages.map(msg => {
             return <Message message={msg} key={msg._id} />;
           })
         : null}
-    </Fragment>
+      {/* <div className='af-scrollTo'></div> */}
+    </div>
   );
 
   return (
@@ -112,7 +106,7 @@ const App = () => {
           ? createMessageForm()
           : null}
       </div>
-      <button onClick={() => console.log(messages)}>Test</button>
+      <button onClick={() => loadMessages()}>Test</button>
     </Layout>
   );
 };
