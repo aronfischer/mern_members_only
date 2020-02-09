@@ -106,7 +106,7 @@ const App = () => {
           ? createMessageForm()
           : null}
       </div>
-      <button onClick={() => loadMessages()}>Test</button>
+      <button onClick={() => console.log(messages)}>Test</button>
     </Layout>
   );
 };

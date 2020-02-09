@@ -1,6 +1,7 @@
 import React from "react";
 import "../style/message.css";
 import { isAuth } from "../auth/helpers";
+import moment from "moment";
 
 const Message = props => {
   const { message } = props;
@@ -11,7 +12,9 @@ const Message = props => {
           {message.author}
         </p>
         <p className='my-0 p-1'>{message.message}</p>
-        <p className='my-0 p-1 af-sec-msg'>{message.date}</p>
+        <p className='my-0 p-1 af-sec-msg'>
+          {moment(message.createdAt).calendar()}
+        </p>
       </div>
     </div>
   );

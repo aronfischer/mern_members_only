@@ -8,6 +8,11 @@ Not working yet, because email is required in model
 
 --> PROBLEM: Signin ha to be changed as well, because you sign in with an email address
 
+
+Another option:
+
+when clicking on the button Signin without email address,
+redirect to prefilled signin from and let them signin without signinup
 */
 
 import React, { useState } from "react";
