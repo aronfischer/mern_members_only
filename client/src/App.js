@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Layout from "./core/Layout";
 import axios from "axios";
@@ -82,16 +82,32 @@ const App = () => {
     </form>
   );
 
-  const displayMessages = () => (
-    <div className='af-card-container mb-3'>
-      {messages !== ""
-        ? messages.map(msg => {
-            return <Message message={msg} key={msg._id} />;
-          })
-        : null}
-      {/* <div className='af-scrollTo'></div> */}
-    </div>
-  );
+  const scrollToEl = React.createRef();
+  const onButtonClick = () => {
+    scrollToEl.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  };
+
+  const displayMessages = () => {
+    return (
+      <Fragment>
+        <button id='clickMe' onClick={onButtonClick}>
+          Test
+        </button>
+        <div id='scrollContainer' className='af-card-container mb-3'>
+          {messages !== ""
+            ? messages.map(msg => {
+                return <Message message={msg} key={msg._id} />;
+              })
+            : null}
+          <div ref={scrollToEl} className='af-scrollTo'></div>
+          {setTimeout(() => document.getElementById("clickMe").click(), 1000)}
+        </div>
+      </Fragment>
+    );
+  };
 
   return (
     <Layout>
@@ -106,7 +122,6 @@ const App = () => {
           ? createMessageForm()
           : null}
       </div>
-      <button onClick={() => console.log(messages)}>Test</button>
     </Layout>
   );
 };
