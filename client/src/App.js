@@ -11,14 +11,31 @@ const App = () => {
   const [values, setValues] = useState({
     message: "",
     messages: "",
+    scroll: true,
     buttonText: "Send"
   });
 
-  const { messages, message, buttonText } = values;
+  const { scroll, messages, message, buttonText } = values;
 
   useEffect(() => {
     loadMessages();
+    return () => {
+      setValues({
+        ...values,
+        scroll: true
+      });
+    };
   }, []);
+
+  useEffect(() => {
+    if (scroll === true) {
+      scrollToBottom();
+      setValues({
+        ...values,
+        scroll: false
+      });
+    }
+  }, [scroll]);
 
   const loadMessages = () => {
     axios({
@@ -83,7 +100,7 @@ const App = () => {
   );
 
   const scrollToEl = React.createRef();
-  const onButtonClick = () => {
+  const scrollToBottom = () => {
     scrollToEl.current.scrollIntoView({
       behavior: "smooth",
       block: "start"
@@ -93,9 +110,6 @@ const App = () => {
   const displayMessages = () => {
     return (
       <Fragment>
-        <button id='clickMe' onClick={onButtonClick}>
-          Test
-        </button>
         <div id='scrollContainer' className='af-card-container mb-3'>
           {messages !== ""
             ? messages.map(msg => {
@@ -103,7 +117,6 @@ const App = () => {
               })
             : null}
           <div ref={scrollToEl} className='af-scrollTo'></div>
-          {setTimeout(() => document.getElementById("clickMe").click(), 1000)}
         </div>
       </Fragment>
     );
