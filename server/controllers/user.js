@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const helpersFuncs = require("./helpers");
 
 exports.read = (req, res) => {
   const userId = req.params.id;
@@ -18,6 +19,7 @@ exports.update = (req, res) => {
   //   console.log("UPDATE USER - req.user", req.user, "UPDATE DATA", req.body);
 
   const { name, password } = req.body;
+
   User.findOne({ _id: req.user._id }, (err, user) => {
     if (err || !user) {
       return res.status(400).json({
@@ -31,6 +33,7 @@ exports.update = (req, res) => {
       });
     } else {
       user.name = name;
+      helpersFuncs.changeAuthorInMessagesByUserId(req, res);
     }
 
     if (password) {
