@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Layout from "../core/Layout";
 import axios from "axios";
 import { isAuth, getCookie, signout, updateUser } from "../auth/helpers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import MyMessages from "../message/MyMessages";
 
 const Private = ({ history }) => {
   const [values, setValues] = useState({
@@ -12,12 +13,14 @@ const Private = ({ history }) => {
     name: "",
     email: "",
     password: "",
-    buttonText: "Submit"
+    buttonText: "Submit",
+    messages: ""
   });
 
   const token = getCookie("token");
   useEffect(() => {
     loadProfile();
+    loadMessages();
   }, []);
 
   const loadProfile = () => {
@@ -46,6 +49,26 @@ const Private = ({ history }) => {
             history.push("/");
           });
         }
+      });
+  };
+
+  const loadMessages = () => {
+    axios({
+      method: "GET",
+      url: `${process.env.REACT_APP_API}/message/${isAuth()._id}`,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        console.log("GET PRIVATE MESSAGES SUCCESS", response);
+        setValues({
+          ...values,
+          messages: response.data
+        });
+      })
+      .catch(error => {
+        console.log("GET PRIVATE MESSAGES ERROR", error.response.data.error);
       });
   };
 
@@ -120,11 +143,16 @@ const Private = ({ history }) => {
 
   return (
     <Layout>
-      <div className='col-md-6 mx-auto'>
-        <ToastContainer />
-        <h1 className='text-center mt-5'>Private</h1>
-        <p className='text-center mt-2'>Profile Update</p>
-        {updateForm()}
+      <h1 className='text-center mt-5'>Private</h1>
+      <div className='row'>
+        <div className='col-md-6 mt-5 mx-auto'>
+          <MyMessages />
+        </div>
+        <div className='col-md-6 mt-5 mx-auto'>
+          <ToastContainer />
+          <h3 className='text-center'>Profile Update</h3>
+          {updateForm()}
+        </div>
       </div>
     </Layout>
   );
