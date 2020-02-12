@@ -3,15 +3,12 @@ const User = require("../models/user");
 
 const helpersFuncs = {
   changeAuthorInMessagesByUserId: (req, res) => {
-    console.log("REQUEST", req.body);
-    // console.log("RESOLVE", res);
-    console.log("REQUEST.USER._id", req.user._id);
-
     const userId = req.user._id;
     const { name } = req.body;
 
     User.findById(userId).exec((err, user) => {
-      console.log("USER IS HERE", user);
+      //   console.log("USER IS HERE", user);
+
       if (err || !user) {
         console.log("CHANGE AUTHOR IN MESSAGES BY USER ID ERROR", err);
         return res.json({
@@ -20,7 +17,7 @@ const helpersFuncs = {
       }
 
       Message.find({ author: user.name }).exec((err, messages) => {
-        console.log("HERE ARE THE USERS MESSAGES", messages);
+        // console.log("HERE ARE THE USERS MESSAGES", messages);
         if (err || !messages) {
           console.log("CHANGE AUTHOR IN MESSAGES BY USER ID ERROR", err);
           return res.json({
@@ -30,6 +27,12 @@ const helpersFuncs = {
 
         // save new Username in all Messages --> not working yet
         messages.forEach(message => {
+          //   console.log("MESSAGE", message);
+          //   console.log("NAME", name); // neu
+          //   console.log("USER.NAME", user.name); //alt
+
+          message.author = name;
+
           message.save((err, updatedMessage) => {
             if (err) {
               console.log("CHANGE AUTHOR IN MESSAGES ERROR", err);
@@ -37,7 +40,7 @@ const helpersFuncs = {
                 error: "Author update failed!"
               });
             }
-            res.json(updatedMessage);
+            // console.log("UPDATED MESSAGE SAVED IN DATABASE", updatedMessage);
           });
         });
       });
