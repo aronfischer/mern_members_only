@@ -60,3 +60,20 @@ exports.getUsersMessages = (req, res) => {
     }
   });
 };
+
+exports.deleteUsersMessage = (req, res) => {
+  const { msgId } = req.body;
+
+  Message.findByIdAndDelete(msgId)
+    .then(response => {
+      return res.json({
+        message: "Message successfully deleted"
+      });
+    })
+    .catch(error => {
+      console.log("DELETE MESSAGE FROM USER ERROR", error);
+      return res.status(400).json({
+        error: "Couldn't delete Message, please try again later"
+      });
+    });
+};

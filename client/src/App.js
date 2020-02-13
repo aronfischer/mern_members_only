@@ -98,6 +98,23 @@ const App = () => {
     </form>
   );
 
+  const deleteMessage = msgId => {
+    axios({
+      method: "DELETE",
+      url: `${process.env.REACT_APP_API}/message/${msgId}`,
+      data: { msgId }
+    })
+      .then(response => {
+        console.log("Message deleted");
+        loadMessages();
+        toast.success(response.data.message);
+      })
+      .catch(err => {
+        console.log("ERROR WHEN DELETING A MESSAGE", err);
+        toast.error(err.response.data.error);
+      });
+  };
+
   const scrollToEl = React.createRef();
   const scrollToBottom = () => {
     scrollToEl.current.scrollIntoView({
@@ -112,7 +129,13 @@ const App = () => {
         <div id='scrollContainer' className='af-card-container mb-3'>
           {messages !== ""
             ? messages.map(msg => {
-                return <Message message={msg} key={msg._id} />;
+                return (
+                  <Message
+                    message={msg}
+                    key={msg._id}
+                    deleteMessage={deleteMessage}
+                  />
+                );
               })
             : null}
           <div ref={scrollToEl} className='af-scrollTo'></div>

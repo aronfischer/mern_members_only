@@ -72,7 +72,7 @@ const Private = ({ history }) => {
       });
   };
 
-  const { role, name, email, password, buttonText } = values;
+  const { role, messages, name, email, password, buttonText } = values;
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -104,6 +104,23 @@ const Private = ({ history }) => {
         console.log("PRIVATE PROFILE UPDATE ERROR", error.response.data.error);
         setValues({ ...values, buttonText: "Submit" });
         toast.error(error.response.data.error);
+      });
+  };
+
+  const deleteMessage = msgId => {
+    axios({
+      method: "DELETE",
+      url: `${process.env.REACT_APP_API}/message/${msgId}`,
+      data: { msgId }
+    })
+      .then(response => {
+        console.log("Message deleted");
+        loadMessages();
+        toast.success(response.data.message);
+      })
+      .catch(err => {
+        console.log("ERROR WHEN DELETING A MESSAGE", err);
+        toast.error(err.response.data.error);
       });
   };
 
@@ -146,7 +163,7 @@ const Private = ({ history }) => {
       <h1 className='text-center mt-5'>Private</h1>
       <div className='row'>
         <div className='col-md-6 mt-5 mx-auto'>
-          <MyMessages />
+          <MyMessages deleteMessage={deleteMessage} messages={messages} />
         </div>
         <div className='col-md-6 mt-5 mx-auto'>
           <ToastContainer />
