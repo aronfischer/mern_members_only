@@ -13,9 +13,9 @@ const Private = ({ history }) => {
     name: "",
     email: "",
     password: "",
-    buttonText: "Submit",
-    messages: ""
+    buttonText: "Submit"
   });
+  const [messages, setMessages] = useState();
 
   const token = getCookie("token");
   useEffect(() => {
@@ -62,17 +62,14 @@ const Private = ({ history }) => {
     })
       .then(response => {
         console.log("GET PRIVATE MESSAGES SUCCESS", response);
-        setValues({
-          ...values,
-          messages: response.data
-        });
+        setMessages(response.data);
       })
       .catch(error => {
         console.log("GET PRIVATE MESSAGES ERROR", error.response.data.error);
       });
   };
 
-  const { role, messages, name, email, password, buttonText } = values;
+  const { role, name, email, password, buttonText } = values;
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });

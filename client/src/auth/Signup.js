@@ -88,12 +88,18 @@ const Signup = () => {
         <ToastContainer />
         {isAuth() ? <Redirect to='/' /> : null}
         <h1 className='text-center my-5'>Signup</h1>
+        <div>
+          I built this application with an email signup system, where you have
+          to verify your email address to activate your account. If you want to
+          try the application out without providing your email, click the
+          "Signup without Email" button below
+        </div>
         {signupForm()}
         <Link to='/auth/password/forgot' className='btn btn-outline-danger'>
           Forgot Password
         </Link>
         <Link to='/signupWithoutEmail' className='btn btn-outline-danger mx-2'>
-          Or signup without your Email
+          Or signup without Email
         </Link>
       </div>
     </Layout>

@@ -27,10 +27,11 @@ const SignupWithoutEmail = () => {
   const [values, setValues] = useState({
     name: "",
     password: "",
+    email: "",
     buttonText: "Submit"
   });
 
-  const { name, password, buttonText } = values;
+  const { name, email, password, buttonText } = values;
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -53,6 +54,7 @@ const SignupWithoutEmail = () => {
           ...values,
           name: "",
           password: "",
+          email: email,
           buttonText: "Submitted"
         });
         toast.success(response.data.message);
@@ -96,6 +98,14 @@ const SignupWithoutEmail = () => {
         <ToastContainer />
         {isAuth() ? <Redirect to='/' /> : null}
         <h1 className='text-center my-5'>Signup Without Email</h1>
+        <div>
+          <p>
+            Once you enter a username and password, a random email will be
+            generated for you. You can copy the email and sign up with the
+            generated email and your password!
+          </p>
+          <p className='af-email'>{email}</p>
+        </div>
         {signupForm()}
         <Link to='/auth/password/forgot' className='btn btn-outline-danger'>
           Forgot Password

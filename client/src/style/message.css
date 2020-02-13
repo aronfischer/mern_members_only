@@ -35,4 +35,12 @@
 .fa-trash-alt:active {
   color: grey;
 }
+
+.af-email {
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+  line-height: 50px;
+}
 /*# sourceMappingURL=message.css.map */
